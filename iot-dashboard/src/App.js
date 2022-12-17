@@ -13,7 +13,7 @@ function App() {
           <div className="col-md-4">
             <Button
               color={type === "temperature" ? "success" : "primary"}
-              onClick={setType("temperature")}
+              onClick={e => setType("temperature")}
             >
               Temperature
             </Button>
@@ -21,7 +21,7 @@ function App() {
           <div className="col-md-4">
             <Button
               color={type === "humidity" ? "success" : "primary"}
-              onClick={setType("humidity")}
+              onClick={e => setType("humidity")}
             >
               Humidity
             </Button>
@@ -29,7 +29,7 @@ function App() {
           <div className="col-md-4">
             <Button
               color={type === "pressure" ? "success" : "primary"}
-              onClick={setType("pressure")}
+              onClick={e => setType("pressure")}
             >
               Pressure
             </Button>
@@ -37,13 +37,16 @@ function App() {
         </Row>
         <Row>
           <div className="col-md-12">
-            {/* {type === "temperature" && */}
-            <Chart title="Temperature" label="Temperature" type="temperature" />
-            {/* }
+            {type === "temperature" &&
+              <Chart
+                title="Temperature"
+                label="Temperature"
+                type="temperature"
+              />}
             {type === "humidity" &&
               <Chart title="Humidity" label="Humidity" type="humidity" />}
             {type === "pressure" &&
-              <Chart title="Pressure" label="Pressure" type="pressure" />} */}
+              <Chart title="Pressure" label="Pressure" type="pressure" />}
           </div>
         </Row>
       </Container>

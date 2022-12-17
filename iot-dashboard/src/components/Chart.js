@@ -40,7 +40,10 @@ export default function Chart(props) {
 
   React.useEffect(() => {
     // fetch data every 5 seconds
-    fetchData();
+    const interval = setInterval(() => {
+      fetchData();
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   ChartJS.register(

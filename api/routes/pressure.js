@@ -8,86 +8,85 @@
   copyright and all the intelectual property rights are owned by Codetruck Software.
 */
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Pressure = require('../models/pressure');
-const { reqAuth } = require('../config/safeRoutes');
-
+const Pressure = require("../models/pressure");
+const { reqAuth } = require("../config/safeRoutes");
 
 // route /api/pressure/
 
-router.get('/', reqAuth, async function (req, res) {
-	const elements = await Pressure.find({  }).exec();
-	return res.json({ success: true, elements: elements });
+router.get("/", async function(req, res) {
+  const elements = await Pressure.find({}).exec();
+  return res.json({ success: true, elements: elements });
 });
 
-router.get('/:_id', reqAuth, async function (req, res) {
-	const elements = await Pressure.find({ _id: req.params._id }).exec();
-	return res.json({ success: true, elements: elements });
+router.get("/:_id", reqAuth, async function(req, res) {
+  const elements = await Pressure.find({ _id: req.params._id }).exec();
+  return res.json({ success: true, elements: elements });
 });
 
-router.post('/', reqAuth, async function (req, res) {
-	const { value, addedDate } = req.body; 
-		const query = {
-		value: value,
-		addedDate: addedDate,
-	};
+router.post("/", reqAuth, async function(req, res) {
+  const { value, addedDate } = req.body;
+  const query = {
+    value: value,
+    addedDate: addedDate
+  };
 
-	const cb = await Pressure.create(query);
+  const cb = await Pressure.create(query);
 
-	return res.json({ success: true, elemId: cb._id });
+  return res.json({ success: true, elemId: cb._id });
 });
 
-router.put('/', reqAuth, async function (req, res) {
-	const { id, value, addedDate } = req.body; 
-	if (!id) {
-		return res.json({ success: false, msg: 'Required fields are empty' });
-	};
-	const element = await Pressure.find({ _id: id }).exec();
-	if (element.length != 1) {
-		return res.json({ success: false, msg: 'Element does not exists' });
-	}
-	const dataToSet = {};
+router.put("/", reqAuth, async function(req, res) {
+  const { id, value, addedDate } = req.body;
+  if (!id) {
+    return res.json({ success: false, msg: "Required fields are empty" });
+  }
+  const element = await Pressure.find({ _id: id }).exec();
+  if (element.length != 1) {
+    return res.json({ success: false, msg: "Element does not exists" });
+  }
+  const dataToSet = {};
 
-	if (value != null) {
-		dataToSet.value = value;
-	}
+  if (value != null) {
+    dataToSet.value = value;
+  }
 
-	if (addedDate != null) {
-		dataToSet.addedDate = addedDate;
-	}
+  if (addedDate != null) {
+    dataToSet.addedDate = addedDate;
+  }
 
-	const newvalues = { $set: dataToSet }; 
-	const item = await Pressure.updateOne({_id: id}, newvalues);
-	return res.json({ success: true });
+  const newvalues = { $set: dataToSet };
+  const item = await Pressure.updateOne({ _id: id }, newvalues);
+  return res.json({ success: true });
 });
 
-router.delete('/', reqAuth, async function (req, res) {
-	const { id } = req.body;
+router.delete("/", reqAuth, async function(req, res) {
+  const { id } = req.body;
 
-	if (!id) {
-		return res.json({ success: false, msg: 'Required fields are empty' });
-	}
+  if (!id) {
+    return res.json({ success: false, msg: "Required fields are empty" });
+  }
 
-	const item = await Pressure.deleteMany({ _id: id });
-	return res.json({ success: true });
+  const item = await Pressure.deleteMany({ _id: id });
+  return res.json({ success: true });
 });
 
-router.get('/pagination',  async function (req, res) {
-	const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
-	const page = req.query.page ? parseInt(req.query.page) : 1;
-	const elements = await Pressure.find({})
-		.limit(pageSize)
-		.skip(pageSize * (page - 1))
-		.exec();
-	const count = await Pressure.countDocuments({});
-	return res.json({
-		success: true,
-		elements: elements,
-		pageSize,
-		page,
-		elementsCount: count,
-	});
+router.get("/pagination", async function(req, res) {
+  const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const elements = await Pressure.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .exec();
+  const count = await Pressure.countDocuments({});
+  return res.json({
+    success: true,
+    elements: elements,
+    pageSize,
+    page,
+    elementsCount: count
+  });
 });
 
 module.exports = router;
