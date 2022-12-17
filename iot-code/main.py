@@ -6,7 +6,7 @@ from sense_hat import SenseHat
 sense = SenseHat()
 sense.clear()
 
-API_LINK = "link"
+API_LINK = "http://18.159.135.221:5100/api"
 
 while True:
     pressure = sense.get_pressure()
@@ -25,5 +25,5 @@ while True:
         print("Error sending data to API")
         print(resp.text)
 
-    # sleep for 10 seconds
-    time.sleep(10)
+    # sleep for 2 seconds
+    time.sleep(2)
