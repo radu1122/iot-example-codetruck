@@ -24,6 +24,8 @@ while True:
     if resp.status_code != 200:
         print("Error sending data to API")
         print(resp.text)
+        continue
+    print("Data sent to API at time: ", time.time())
 
     # sleep for 2 seconds
     time.sleep(2)
