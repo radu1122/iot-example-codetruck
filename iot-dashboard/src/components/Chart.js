@@ -42,7 +42,7 @@ export default function Chart(props) {
     // fetch data every 5 seconds
     const interval = setInterval(() => {
       fetchData();
-    }, 5000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -83,18 +83,20 @@ export default function Chart(props) {
         },
         // set scale 0 to 100
         min: 0,
-        max: 50
+        max: props.max ? props.max : 50
       }
     }
   };
 
-  if (!data) return null;
+  if (!data)
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
 
   return (
     <div>
-      <Button onClick={fetchData} color="primary">
-        Refresh
-      </Button>
       <Line options={options} data={data} />
     </div>
   );

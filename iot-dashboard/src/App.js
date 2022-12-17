@@ -39,14 +39,19 @@ function App() {
           <div className="col-md-12">
             {type === "temperature" &&
               <Chart
-                title="Temperature"
-                label="Temperature"
+                title="Temperature °C"
+                label="Temperature °C"
                 type="temperature"
               />}
             {type === "humidity" &&
-              <Chart title="Humidity" label="Humidity" type="humidity" />}
+              <Chart title="Humidity %" label="Humidity %" type="humidity" />}
             {type === "pressure" &&
-              <Chart title="Pressure" label="Pressure" type="pressure" />}
+              <Chart
+                title="Pressure millibars"
+                label="Pressure millibars"
+                max={2000}
+                type="pressure"
+              />}
           </div>
         </Row>
       </Container>
